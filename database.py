@@ -19,3 +19,12 @@ class Database() :
 
     def create_user(self, user) :
         return self.db.insert_one(user)
+    
+    def delete_user(self, username) : 
+        return self.db.delete_one({"username" : username})
+
+    def login_user(self, data) :
+        return self.db.find_one({
+            "username" : data['username'],
+            "password" : data['password'],
+        })

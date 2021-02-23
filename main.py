@@ -14,7 +14,7 @@ app.config['JSON_SORT_KEYS'] = False
 
 @app.route("/ping", methods = ['GET'])
 def ping():
-    return "pong"
+    return response(200, "pong")
 
 @app.route('/user/<username>', methods = ['GET'])
 def profile(username):

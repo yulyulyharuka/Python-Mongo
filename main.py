@@ -1,9 +1,12 @@
 from flask import Flask, request, jsonify
 from markupsafe import escape
-from database import connect_db
+from database import connect_db, Database
 from utils import response, load_env
 
 config = load_env()
+
+db = Database(config['MONGO_URL'], 'example')
+
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 
@@ -13,10 +16,7 @@ def hello():
 
 @app.route('/user/<username>', methods = ['GET'])
 def profile(username):
-    db = connect_db(config['MONGO_URL'])
-    collection =  db['example']
-
-    user = collection.find_one({"username": username})
+    user = db.find_user(username)
     if user == None :
         return response(200, "User not found")
 
@@ -31,15 +31,12 @@ def profile(username):
 def create_user():
     req = request.get_json()
 
-    db = connect_db(config['MONGO_URL'])
-    collection =  db['example']
-
     user = {
         'username': req['username'],
         'name': req['name'],
         'age': req['age']
     }
-    result = collection.insert_one(user)
+    result = db.create_user(user)
 
     return response(200, "Create User OK")
 

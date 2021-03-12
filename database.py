@@ -26,5 +26,4 @@ class Database() :
     def login_user(self, data) :
         return self.db.find_one({
             "username" : data['username'],
-            "password" : data['password'],
         })

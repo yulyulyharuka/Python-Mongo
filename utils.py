@@ -12,7 +12,7 @@ def response(status, content) :
     }
 
     return jsonify(response), status
- 
+
 def load_env() :
     load_dotenv()
 
